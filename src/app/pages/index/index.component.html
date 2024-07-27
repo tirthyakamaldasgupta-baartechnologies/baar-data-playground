@@ -1,6 +1,6 @@
 <p-menubar>
   <ng-template pTemplate="start">
-    <p class="text-2xl font-semibold">BAAR data Visualizer</p>
+    <p class="text-2xl font-semibold">BAAR data visualizer</p>
   </ng-template>
 </p-menubar>
 
@@ -13,10 +13,24 @@
 >
   <ng-template pTemplate>
     <div class="col flex-column">
-      <p class="text-lg font-semibold">BAAR data</p>
+      <p class="text-lg font-semibold">Data</p>
 
       <div [style]="{ textAlign: 'right' }">
-        <p-button label="Visualize" />
+        <p-button
+          icon="pi pi-upload"
+          [rounded]="true"
+          [text]="true"
+          severity="warning"
+          [size]="'large'"
+        />
+
+        <p-button
+          icon="pi pi-eye"
+          [rounded]="true"
+          [text]="true"
+          severity="info"
+          [size]="'large'"
+        />
       </div>
 
       <br />
@@ -31,12 +45,24 @@
   </ng-template>
   <ng-template pTemplate>
     <div class="col flex-column">
-      <p class="text-lg font-semibold">BAAR data visual editor</p>
+      <p class="text-lg font-semibold">Visual editor</p>
 
       <div [style]="{ textAlign: 'right' }">
-        <p-button>
-          <span class="pi pi-clipboard"></span>
-        </p-button>
+        <p-button
+          icon="pi pi-clipboard"
+          [rounded]="true"
+          [text]="true"
+          severity="info"
+          [size]="'large'"
+        />
+
+        <p-button
+          icon="pi pi-download"
+          [rounded]="true"
+          [text]="true"
+          severity="warning"
+          [size]="'large'"
+        />
       </div>
 
       <br />

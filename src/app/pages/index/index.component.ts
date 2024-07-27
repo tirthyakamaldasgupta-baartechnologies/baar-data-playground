@@ -22,11 +22,18 @@ import { TableModule } from 'primeng/table';
 })
 export class IndexComponent {
   editorOptions = {
+    fontFamily: 'Menlo, monospace',
+    fontSize: 14,
     minimap: {
       enabled: false
     },
-    language: 'javascript',
+    quickSuggestions: false,
+    language: 'plaintext',
     lineNumbers: 'off',
+    parameterHints: {
+      enabled: false
+    },
+    suggestOnTriggerCharacters: false,
     theme: 'vs-light',
     wordWrap: 'on'
   };
