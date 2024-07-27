@@ -4,7 +4,6 @@ import { MonacoEditorModule } from 'ngx-monaco-editor-v2';
 import { ButtonModule } from 'primeng/button';
 import { MenubarModule } from 'primeng/menubar';
 import { SplitterModule } from 'primeng/splitter';
-import { TableModule } from 'primeng/table';
 
 @Component({
   selector: 'app-index',
@@ -14,8 +13,7 @@ import { TableModule } from 'primeng/table';
     FormsModule,
     MenubarModule,
     MonacoEditorModule,
-    SplitterModule,
-    TableModule
+    SplitterModule
   ],
   templateUrl: './index.component.html',
   styleUrl: './index.component.css'
