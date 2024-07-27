@@ -3,6 +3,7 @@ import { SplitterModule } from 'primeng/splitter';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
+import { MenubarModule } from 'primeng/menubar';
 
 @Component({
   selector: 'app-index',
@@ -10,6 +11,7 @@ import { ButtonModule } from 'primeng/button';
   imports: [
     ButtonModule,
     InputTextareaModule,
+    MenubarModule,
     SplitterModule,
     TableModule
   ],
