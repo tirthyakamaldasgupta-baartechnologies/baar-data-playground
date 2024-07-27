@@ -1,17 +1,19 @@
 import { Component } from '@angular/core';
-import { SplitterModule } from 'primeng/splitter';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { TableModule } from 'primeng/table';
+import { FormsModule } from '@angular/forms';
+import { MonacoEditorModule } from 'ngx-monaco-editor-v2';
 import { ButtonModule } from 'primeng/button';
 import { MenubarModule } from 'primeng/menubar';
+import { SplitterModule } from 'primeng/splitter';
+import { TableModule } from 'primeng/table';
 
 @Component({
   selector: 'app-index',
   standalone: true,
   imports: [
     ButtonModule,
-    InputTextareaModule,
+    FormsModule,
     MenubarModule,
+    MonacoEditorModule,
     SplitterModule,
     TableModule
   ],
@@ -19,5 +21,15 @@ import { MenubarModule } from 'primeng/menubar';
   styleUrl: './index.component.css'
 })
 export class IndexComponent {
+  editorOptions = {
+    minimap: {
+      enabled: false
+    },
+    language: 'javascript',
+    lineNumbers: 'off',
+    theme: 'vs-light',
+    wordWrap: 'on'
+  };
 
+  code: string = '';
 }

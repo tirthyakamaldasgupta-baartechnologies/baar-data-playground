@@ -1,40 +1,47 @@
 <p-menubar>
   <ng-template pTemplate="start">
-    <p class="text-2xl font-semibold">BAAR Data Visualizer</p>
+    <p class="text-2xl font-semibold">BAAR data Visualizer</p>
   </ng-template>
 </p-menubar>
 
+<br />
+
 <p-splitter
   [panelSizes]="[35, 65]"
-  [style]="{ height: '100vh', border: '0px' }"
+  [style]="{ height: 'calc(100vh - 155px)' }"
   styleClass="mb-5"
 >
   <ng-template pTemplate>
     <div class="col flex-column">
-      <p class="text-xl w-10 font-medium">Stringified text</p>
+      <p class="text-lg font-semibold">BAAR data</p>
 
-      <p-button label="Visualize" />
+      <div [style]="{ textAlign: 'right' }">
+        <p-button label="Visualize" />
+      </div>
 
       <br />
-      <br />
 
-      <textarea
-        class="w-full"
-        [style]="{ height: '100vh' }"
-        pInputTextarea
-      ></textarea>
+      <ngx-monaco-editor
+        class="raw-baar-data-editor"
+        [options]="editorOptions"
+        [(ngModel)]="code"
+        [style]="{ height: 'calc(100vh - 280px)' }"
+      ></ngx-monaco-editor>
     </div>
   </ng-template>
   <ng-template pTemplate>
     <div class="col flex-column">
-      <p class="text-xl w-10 font-medium">Data editor</p>
+      <p class="text-lg font-semibold">BAAR data visual editor</p>
 
-      <p-button label="Copy stringified text" />
+      <div [style]="{ textAlign: 'right' }">
+        <p-button>
+          <span class="pi pi-clipboard"></span>
+        </p-button>
+      </div>
 
       <br />
-      <br />
 
-      <p-table [tableStyle]="{ 'min-width': '50rem' }">
+      <!-- <p-table [scrollable]="true" [tableStyle]="{ 'min-width': '50rem' }">
         <ng-template pTemplate="header">
           <tr>
             <th>Code</th>
@@ -51,7 +58,7 @@
             <td>{{ product.quantity }}</td>
           </tr>
         </ng-template>
-      </p-table>
+      </p-table> -->
     </div>
   </ng-template>
 </p-splitter>

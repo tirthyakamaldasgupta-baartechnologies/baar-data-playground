@@ -1,0 +1,5 @@
+.raw-baar-data-editor {
+  .editor-container {
+    height: calc(100vh - 100px);
+  }
+}
