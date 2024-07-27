@@ -1,0 +1,51 @@
+<p-splitter
+  [panelSizes]="[35, 65]"
+  [style]="{ height: '100vh', border: '0px' }"
+  styleClass="mb-5"
+>
+  <ng-template pTemplate>
+    <div class="col flex-column">
+      <p class="text-xl w-10 font-medium">Stringified text</p>
+
+      <p-button label="Visualize" />
+
+      <br>
+      <br>
+
+      <textarea
+        class="w-full"
+        [style]="{ height: '100vh' }"
+        pInputTextarea
+      ></textarea>
+    </div>
+  </ng-template>
+  <ng-template pTemplate>
+    <div class="col flex-column">
+      <p class="text-xl w-10 font-medium">Data editor</p>
+
+      <p-button label="Copy stringified text" />
+
+      <br>
+      <br>
+
+      <p-table [tableStyle]="{ 'min-width': '50rem' }">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Quantity</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+            <tr>
+                <td>{{ product.code }}</td>
+                <td>{{ product.name }}</td>
+                <td>{{ product.category }}</td>
+                <td>{{ product.quantity }}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+    </div>
+  </ng-template>
+</p-splitter>

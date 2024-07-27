@@ -14,16 +14,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have the 'baar-data-visualizer' title`, () => {
+  it(`should have the 'stringified-data-util' title`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('baar-data-visualizer');
+    expect(app.title).toEqual('stringified-data-util');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, baar-data-visualizer');
+    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, stringified-data-util');
   });
 });
