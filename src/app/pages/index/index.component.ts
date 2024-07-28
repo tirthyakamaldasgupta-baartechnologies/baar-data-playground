@@ -3,9 +3,11 @@ import { FormsModule } from '@angular/forms';
 import { HotTableModule } from '@handsontable/angular';
 import { registerAllModules } from 'handsontable/registry';
 import { MonacoEditorModule } from 'ngx-monaco-editor-v2';
+import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { MenubarModule } from 'primeng/menubar';
 import { SplitterModule } from 'primeng/splitter';
+import { ToastModule } from 'primeng/toast';
 import { BaarutilService } from '../../services/baarutil.service';
 
 registerAllModules();
@@ -19,8 +21,10 @@ registerAllModules();
     HotTableModule,
     MenubarModule,
     MonacoEditorModule,
-    SplitterModule
+    SplitterModule,
+    ToastModule
   ],
+  providers: [MessageService],
   templateUrl: './index.component.html',
   styleUrl: './index.component.css'
 })
@@ -33,7 +37,8 @@ export class IndexComponent implements OnInit {
   dataset: any;
 
   constructor(
-    private _baarutilService: BaarutilService
+    private _baarutilService: BaarutilService,
+    private _messageService: MessageService
   ) {
     this.data = '';
 
@@ -75,6 +80,11 @@ export class IndexComponent implements OnInit {
       const keys = Object.keys(arrayOfObjects[0]);
 
       this.columns = keys;
+
+      this._displayMessage(
+        'success',
+        'Data loaded'
+      );
     }
   };
 
@@ -82,9 +92,31 @@ export class IndexComponent implements OnInit {
     const string = this._baarutilService.writeConvert(this.dataset);
 
     this.data = string;
+
+    this._displayMessage(
+      'success',
+      'Data replaced'
+    );
+  }
+
+  private _displayMessage(
+    severity: 'success',
+    summary: string,
+    detail?: string
+  ) {
+    this._messageService.add({
+      severity: severity,
+      summary: summary,
+      detail: detail ? detail : ''
+    });
   }
 
   public copyDataToClipboard(): void {
     navigator.clipboard.writeText(this.data).then().catch(e => console.log(e));
+
+    this._displayMessage(
+      'success',
+      'Copied to clipboard'
+    );
   }
 }
