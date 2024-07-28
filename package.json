@@ -1,5 +1,5 @@
 {
-  "name": "baar-data-visualizer",
+  "name": "baar-data-playground",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
