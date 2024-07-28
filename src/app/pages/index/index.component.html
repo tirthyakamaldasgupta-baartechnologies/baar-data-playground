@@ -7,7 +7,7 @@
 <br />
 
 <p-splitter
-  [panelSizes]="[35, 65]"
+  [panelSizes]="[35, 3, 65]"
   [style]="{ height: 'calc(100vh - 155px)' }"
   styleClass="mb-5"
 >
@@ -25,12 +25,12 @@
         />
 
         <p-button
-          icon="pi pi-eye"
+          icon="pi pi-clipboard"
           [rounded]="true"
           [text]="true"
-          severity="info"
+          severity="success"
           [size]="'large'"
-          (onClick)="initializeData()"
+          (onClick)="copyDataToClipboard()"
         />
       </div>
 
@@ -44,19 +44,38 @@
       ></ngx-monaco-editor>
     </div>
   </ng-template>
+
+  <ng-template pTemplate>
+    <div class="flex align-content-center flex-wrap" style="min-height: 200px">
+      <div class="flex align-items-center justify-content-center">
+        <p-button
+          icon="pi pi-arrow-circle-right"
+          [rounded]="true"
+          [text]="true"
+          severity="info"
+          [size]="'large'"
+          (onClick)="initializeData()"
+        />
+      </div>
+
+      <div class="flex align-items-center justify-content-center">
+        <p-button
+          icon="pi pi-arrow-circle-left"
+          [rounded]="true"
+          [text]="true"
+          severity="info"
+          [size]="'large'"
+          (onClick)="replaceData()"
+        />
+      </div>
+    </div>
+  </ng-template>
+
   <ng-template pTemplate>
     <div class="col flex-column">
       <p class="text-lg font-semibold">Visual editor</p>
 
       <div>
-        <p-button
-          icon="pi pi-clipboard"
-          [rounded]="true"
-          [text]="true"
-          severity="info"
-          [size]="'large'"
-        />
-
         <p-button
           icon="pi pi-download"
           [rounded]="true"

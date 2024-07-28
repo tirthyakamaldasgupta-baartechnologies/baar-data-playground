@@ -41,4 +41,28 @@ export class BaarutilService {
 
     return arrayOfObjects;
   };
+
+  writeConvert(arrayOfObjects: Array<Object>) {
+    /**
+     * This function reads an array of objects and converts it to a string format.
+     * @param {Array<Object>} arrayOfObjects - The array of objects to be converted.
+     * @returns {string} - The string format of the input list.
+     */
+    let string = "";
+
+    arrayOfObjects.forEach(dict => {
+      for (const [key, value] of Object.entries(dict)) {
+        string += `${key}__=__${value}__$$__`;
+      }
+
+      string = string.slice(0, -6);
+
+      string += "__::__";
+    });
+
+    string = string.slice(0, -6);
+
+    return string;
+  }
+
 }

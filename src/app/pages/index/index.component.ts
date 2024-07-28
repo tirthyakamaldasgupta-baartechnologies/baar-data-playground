@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { HotTableModule } from '@handsontable/angular';
+import { registerAllModules } from 'handsontable/registry';
 import { MonacoEditorModule } from 'ngx-monaco-editor-v2';
 import { ButtonModule } from 'primeng/button';
 import { MenubarModule } from 'primeng/menubar';
 import { SplitterModule } from 'primeng/splitter';
-import { HotTableModule } from '@handsontable/angular';
-import { registerAllModules } from 'handsontable/registry';
 import { BaarutilService } from '../../services/baarutil.service';
 
 registerAllModules();
@@ -32,7 +32,9 @@ export class IndexComponent implements OnInit {
   columns: any;
   dataset: any;
 
-  constructor(private _baarutilService: BaarutilService) {
+  constructor(
+    private _baarutilService: BaarutilService
+  ) {
     this.data = '';
 
     this.columns = [];
@@ -69,10 +71,20 @@ export class IndexComponent implements OnInit {
 
     if (arrayOfObjects.length > 0) {
       this.dataset = arrayOfObjects;
-      
+
       const keys = Object.keys(arrayOfObjects[0]);
 
       this.columns = keys;
     }
   };
+
+  public replaceData(): void {
+    const string = this._baarutilService.writeConvert(this.dataset);
+
+    this.data = string;
+  }
+
+  public copyDataToClipboard(): void {
+    navigator.clipboard.writeText(this.data).then().catch(e => console.log(e));
+  }
 }
