@@ -10,8 +10,13 @@ import { SplitterModule } from 'primeng/splitter';
 import { ToastModule } from 'primeng/toast';
 import { PanelModule } from 'primeng/panel';
 import { InputSwitchModule } from 'primeng/inputswitch';
+import { DropdownModule } from 'primeng/dropdown';
 
 import { BaarutilService } from '../../services/baarutil.service';
+
+interface Appearance {
+  name: string;
+}
 
 registerAllModules();
 
@@ -20,6 +25,7 @@ registerAllModules();
   standalone: true,
   imports: [
     ButtonModule,
+    DropdownModule,
     FormsModule,
     HotTableModule,
     InputSwitchModule,
@@ -34,6 +40,10 @@ registerAllModules();
   styleUrl: './index.component.css'
 })
 export class IndexComponent implements OnInit {
+  Appearances: Appearance[] | undefined;
+
+  selectedAppearance: Appearance;
+
   isDarkMode = false;
 
   currentYear: number;
@@ -55,12 +65,79 @@ export class IndexComponent implements OnInit {
 
     this.columns = [];
     this.dataset = [];
+
+    this.selectedAppearance = { name: 'Auto' }
   }
 
   ngOnInit(): void {
     this._initializemonacoEditorOptions();
 
     this.resetOrInitializeData();
+
+    this._setAppearanceOptions();
+    this._setSelectedAppearance();
+  }
+
+  private _setSelectedAppearance(): void {
+    const linkElement = document.getElementById(
+      'app-theme',
+    ) as HTMLLinkElement;
+
+    const selectedAppearance = window.localStorage.getItem("selectedAppearance");
+
+    switch (selectedAppearance) {
+      case 'Auto':
+        this.selectedAppearance = { name: 'Auto' };
+
+        if (window.matchMedia("(prefers-color-scheme: dark)")) {
+          this.selectedAppearance = { name: 'Dark' };
+
+          linkElement.href = 'theme-dark.css';
+
+          this.monacoEditorOptions = { ...this.monacoEditorOptions, theme: 'vs-dark' };
+        } else {
+          this.selectedAppearance = { name: 'Light' };
+
+          linkElement.href = 'theme-light.css';
+
+          this.monacoEditorOptions = { ...this.monacoEditorOptions, theme: 'vs-light' };
+        }
+
+        break;
+
+      case 'Light':
+        this.selectedAppearance = { name: 'Light' };
+
+        linkElement.href = 'theme-light.css';
+
+        this.monacoEditorOptions = { ...this.monacoEditorOptions, theme: 'vs-light' };
+
+        break;
+
+      case 'Dark':
+        this.selectedAppearance = { name: 'Dark' };
+
+        linkElement.href = 'theme-dark.css';
+
+        this.monacoEditorOptions = { ...this.monacoEditorOptions, theme: 'vs-dark' };
+
+        break;
+
+      default:
+        this.selectedAppearance = { name: 'Auto' };
+
+        if (window.matchMedia("(prefers-color-scheme: dark)")) {
+          linkElement.href = 'theme-dark.css';
+
+          this.monacoEditorOptions = { ...this.monacoEditorOptions, theme: 'vs-dark' };
+        } else {
+          linkElement.href = 'theme-light.css';
+
+          this.monacoEditorOptions = { ...this.monacoEditorOptions, theme: 'vs-light' };
+        }
+
+        break;
+    }
   }
 
   toggleTheme() {
@@ -68,19 +145,50 @@ export class IndexComponent implements OnInit {
       'app-theme',
     ) as HTMLLinkElement;
 
-    if (linkElement.href.includes('light')) {
-      linkElement.href = 'theme-dark.css';
+    switch (this.selectedAppearance.name) {
+      case 'Auto':
+        if (window.matchMedia("(prefers-color-scheme: dark)")) {
+          this.selectedAppearance = { name: 'Auto' };
 
-      this.isDarkMode = true;
+          linkElement.href = 'theme-dark.css';
 
-      this.monacoEditorOptions = { ...this.monacoEditorOptions, theme: 'vs-dark' };
-    } else {
-      linkElement.href = 'theme-light.css';
+          this.monacoEditorOptions = { ...this.monacoEditorOptions, theme: 'vs-dark' };
+        } else {
+          linkElement.href = 'theme-light.css';
 
-      this.isDarkMode = false;
+          this.monacoEditorOptions = { ...this.monacoEditorOptions, theme: 'vs-light' };
+        }
 
-      this.monacoEditorOptions = { ...this.monacoEditorOptions, theme: 'vs-light' };
+        window.localStorage.setItem("selectedAppearance", "Auto");
+
+        break;
+
+      case 'Light':
+        linkElement.href = 'theme-light.css';
+
+        this.monacoEditorOptions = { ...this.monacoEditorOptions, theme: 'vs-light' };
+
+        window.localStorage.setItem("selectedAppearance", "Light");
+
+        break;
+
+      case 'Dark':
+        linkElement.href = 'theme-dark.css';
+
+        this.monacoEditorOptions = { ...this.monacoEditorOptions, theme: 'vs-dark' };
+
+        window.localStorage.setItem("selectedAppearance", "Dark");
+
+        break;
     }
+  }
+
+  private _setAppearanceOptions(): void {
+    this.Appearances = [
+      { name: 'Light' },
+      { name: 'Dark' },
+      { name: 'Auto' },
+    ];
   }
 
   private _initializemonacoEditorOptions(): void {
