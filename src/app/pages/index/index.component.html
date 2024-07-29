@@ -42,7 +42,7 @@
           [text]="true"
           severity="info"
           [size]="'large'"
-          (onClick)="initializeData()"
+          (onClick)="resetOrInitializeData()"
         />
       </div>
 
@@ -83,6 +83,7 @@
 
       <br />
 
+      @if (columns.length > 0) {
       <hot-table
         [data]="dataset"
         [colHeaders]="true"
@@ -94,10 +95,11 @@
         [contextMenu]="true"
         licenseKey="non-commercial-and-evaluation"
       >
-        @if (columns.length > 0) { @for (column of columns; track $index) {
+        @for (column of columns; track $index) {
         <hot-column data="{{ column }}" title="{{ column }}"></hot-column>
-        } }
+        }
       </hot-table>
+      }
     </div>
   </ng-template>
 </p-splitter>

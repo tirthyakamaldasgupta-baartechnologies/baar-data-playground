@@ -52,7 +52,7 @@ export class IndexComponent implements OnInit {
   ngOnInit(): void {
     this._initializeMenloEditorOptions();
 
-    this.initializeData();
+    this.resetOrInitializeData();
   }
 
   private _initializeMenloEditorOptions(): void {
@@ -64,7 +64,7 @@ export class IndexComponent implements OnInit {
       },
       quickSuggestions: false,
       language: 'plaintext',
-      lineNumbers: 'off',
+      // lineNumbers: 'off',
       parameterHints: {
         enabled: false
       },
@@ -74,12 +74,15 @@ export class IndexComponent implements OnInit {
     };
   }
 
-  public initializeData(): void {
+  public resetOrInitializeData(): void {
+    this.columns = [];
+    this.dataset = [];
+
     const arrayOfObjects = this._baarutilService.readConvert(this.data);
 
-    if (arrayOfObjects.length > 0) {
-      this.dataset = arrayOfObjects;
+    this.dataset = arrayOfObjects;
 
+    if (arrayOfObjects.length > 0) {
       const keys = Object.keys(arrayOfObjects[0]);
 
       this.columns = keys;
