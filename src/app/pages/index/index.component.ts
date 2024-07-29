@@ -9,6 +9,7 @@ import { MenubarModule } from 'primeng/menubar';
 import { SplitterModule } from 'primeng/splitter';
 import { ToastModule } from 'primeng/toast';
 import { PanelModule } from 'primeng/panel';
+import { InputSwitchModule } from 'primeng/inputswitch';
 
 import { BaarutilService } from '../../services/baarutil.service';
 
@@ -21,6 +22,7 @@ registerAllModules();
     ButtonModule,
     FormsModule,
     HotTableModule,
+    InputSwitchModule,
     MenubarModule,
     MonacoEditorModule,
     PanelModule,
@@ -32,9 +34,11 @@ registerAllModules();
   styleUrl: './index.component.css'
 })
 export class IndexComponent implements OnInit {
+  isDarkMode = false;
+
   currentYear: number;
 
-  menloEditorOptions: any;
+  monacoEditorOptions: any;
 
   data: string;
 
@@ -46,7 +50,7 @@ export class IndexComponent implements OnInit {
     private _messageService: MessageService
   ) {
     this.currentYear = new Date().getFullYear();
-    
+
     this.data = '';
 
     this.columns = [];
@@ -54,13 +58,33 @@ export class IndexComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._initializeMenloEditorOptions();
+    this._initializemonacoEditorOptions();
 
     this.resetOrInitializeData();
   }
 
-  private _initializeMenloEditorOptions(): void {
-    this.menloEditorOptions = {
+  toggleTheme() {
+    const linkElement = document.getElementById(
+      'app-theme',
+    ) as HTMLLinkElement;
+
+    if (linkElement.href.includes('light')) {
+      linkElement.href = 'theme-dark.css';
+
+      this.isDarkMode = true;
+
+      this.monacoEditorOptions = { ...this.monacoEditorOptions, theme: 'vs-dark' };
+    } else {
+      linkElement.href = 'theme-light.css';
+
+      this.isDarkMode = false;
+
+      this.monacoEditorOptions = { ...this.monacoEditorOptions, theme: 'vs-light' };
+    }
+  }
+
+  private _initializemonacoEditorOptions(): void {
+    this.monacoEditorOptions = {
       fontFamily: 'Menlo, monospace',
       fontSize: 14,
       minimap: {
@@ -73,7 +97,7 @@ export class IndexComponent implements OnInit {
         enabled: false
       },
       suggestOnTriggerCharacters: false,
-      theme: 'vs-light',
+      theme: this.isDarkMode ? 'vs-dark' : 'vs-light',
       wordWrap: 'on'
     };
   }

@@ -4,6 +4,9 @@
   <ng-template pTemplate="start">
     <p class="text-2xl font-semibold">BAAR data playground</p>
   </ng-template>
+  <ng-template pTemplate="end">
+    <p-inputSwitch [ngModel]="isDarkMode" (ngModelChange)="toggleTheme()" />
+  </ng-template>
 </p-menubar>
 
 <br />
@@ -50,7 +53,7 @@
 
       <ngx-monaco-editor
         class="raw-baar-data-editor"
-        [options]="menloEditorOptions"
+        [options]="monacoEditorOptions"
         [(ngModel)]="data"
         [style]="{ height: 'calc(100vh - 280px)' }"
       ></ngx-monaco-editor>
