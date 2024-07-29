@@ -8,6 +8,8 @@ import { ButtonModule } from 'primeng/button';
 import { MenubarModule } from 'primeng/menubar';
 import { SplitterModule } from 'primeng/splitter';
 import { ToastModule } from 'primeng/toast';
+import { PanelModule } from 'primeng/panel';
+
 import { BaarutilService } from '../../services/baarutil.service';
 
 registerAllModules();
@@ -21,6 +23,7 @@ registerAllModules();
     HotTableModule,
     MenubarModule,
     MonacoEditorModule,
+    PanelModule,
     SplitterModule,
     ToastModule
   ],
