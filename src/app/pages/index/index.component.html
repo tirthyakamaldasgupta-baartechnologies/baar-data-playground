@@ -9,7 +9,7 @@
 <br />
 
 <p-splitter
-  [panelSizes]="[35, 4, 65]"
+  [panelSizes]="[35, 65]"
   [style]="{ height: 'calc(100vh - 155px)' }"
   styleClass="mb-5"
 >
@@ -35,6 +35,15 @@
           [size]="'large'"
           (onClick)="copyDataToClipboard()"
         />
+
+        <p-button
+          icon="pi pi-caret-right"
+          [rounded]="true"
+          [text]="true"
+          severity="info"
+          [size]="'large'"
+          (onClick)="initializeData()"
+        />
       </div>
 
       <br />
@@ -49,36 +58,19 @@
   </ng-template>
 
   <ng-template pTemplate>
-    <div class="flex align-content-center flex-wrap" style="min-height: 200px">
-      <div class="flex align-items-center justify-content-center ml-2">
-        <p-button
-          icon="pi pi-caret-right"
-          [rounded]="true"
-          [text]="true"
-          severity="info"
-          [size]="'large'"
-          (onClick)="initializeData()"
-        />
-      </div>
-
-      <div class="flex align-items-center justify-content-center ml-2">
-        <p-button
-          icon="pi pi-caret-left"
-          [rounded]="true"
-          [text]="true"
-          severity="info"
-          [size]="'large'"
-          (onClick)="replaceData()"
-        />
-      </div>
-    </div>
-  </ng-template>
-
-  <ng-template pTemplate>
     <div class="col flex-column">
       <p class="text-lg font-semibold">Visual editor</p>
 
       <div>
+        <p-button
+        icon="pi pi-caret-left"
+        [rounded]="true"
+        [text]="true"
+        severity="info"
+        [size]="'large'"
+        (onClick)="replaceData()"
+      />
+      
         <p-button
           icon="pi pi-download"
           [rounded]="true"
