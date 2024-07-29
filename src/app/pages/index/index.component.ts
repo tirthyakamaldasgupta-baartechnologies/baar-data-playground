@@ -32,6 +32,8 @@ registerAllModules();
   styleUrl: './index.component.css'
 })
 export class IndexComponent implements OnInit {
+  currentYear: number;
+
   menloEditorOptions: any;
 
   data: string;
@@ -43,6 +45,8 @@ export class IndexComponent implements OnInit {
     private _baarutilService: BaarutilService,
     private _messageService: MessageService
   ) {
+    this.currentYear = new Date().getFullYear();
+    
     this.data = '';
 
     this.columns = [];
