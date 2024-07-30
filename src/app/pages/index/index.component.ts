@@ -40,7 +40,9 @@ registerAllModules();
   styleUrl: './index.component.css'
 })
 export class IndexComponent implements OnInit {
-  Appearances: Appearance[] | undefined;
+  appThemeLinkElement: HTMLLinkElement | undefined;
+
+  appearances: Appearance[] | undefined;
 
   selectedAppearance: Appearance;
 
@@ -75,14 +77,13 @@ export class IndexComponent implements OnInit {
     this.resetOrInitializeData();
 
     this._setAppearanceOptions();
+
+    this.appThemeLinkElement = document.getElementById('app-theme') as HTMLLinkElement;
+
     this._setSelectedAppearance();
   }
 
   private _setSelectedAppearance(): void {
-    const linkElement = document.getElementById(
-      'app-theme',
-    ) as HTMLLinkElement;
-
     const selectedAppearance = window.localStorage.getItem("selectedAppearance");
 
     switch (selectedAppearance) {
@@ -92,13 +93,13 @@ export class IndexComponent implements OnInit {
         if (window.matchMedia("(prefers-color-scheme: dark)")) {
           this.selectedAppearance = { name: 'Dark' };
 
-          linkElement.href = 'theme-dark.css';
+          this.appThemeLinkElement!.href = 'theme-dark.css';
 
           this.monacoEditorOptions = { ...this.monacoEditorOptions, theme: 'vs-dark' };
         } else {
           this.selectedAppearance = { name: 'Light' };
 
-          linkElement.href = 'theme-light.css';
+          this.appThemeLinkElement!.href = 'theme-light.css';
 
           this.monacoEditorOptions = { ...this.monacoEditorOptions, theme: 'vs-light' };
         }
@@ -108,7 +109,7 @@ export class IndexComponent implements OnInit {
       case 'Light':
         this.selectedAppearance = { name: 'Light' };
 
-        linkElement.href = 'theme-light.css';
+        this.appThemeLinkElement!.href = 'theme-light.css';
 
         this.monacoEditorOptions = { ...this.monacoEditorOptions, theme: 'vs-light' };
 
@@ -117,7 +118,7 @@ export class IndexComponent implements OnInit {
       case 'Dark':
         this.selectedAppearance = { name: 'Dark' };
 
-        linkElement.href = 'theme-dark.css';
+        this.appThemeLinkElement!.href = 'theme-dark.css';
 
         this.monacoEditorOptions = { ...this.monacoEditorOptions, theme: 'vs-dark' };
 
@@ -127,11 +128,11 @@ export class IndexComponent implements OnInit {
         this.selectedAppearance = { name: 'Auto' };
 
         if (window.matchMedia("(prefers-color-scheme: dark)")) {
-          linkElement.href = 'theme-dark.css';
+          this.appThemeLinkElement!.href = 'theme-dark.css';
 
           this.monacoEditorOptions = { ...this.monacoEditorOptions, theme: 'vs-dark' };
         } else {
-          linkElement.href = 'theme-light.css';
+          this.appThemeLinkElement!.href = 'theme-light.css';
 
           this.monacoEditorOptions = { ...this.monacoEditorOptions, theme: 'vs-light' };
         }
@@ -141,20 +142,16 @@ export class IndexComponent implements OnInit {
   }
 
   toggleTheme() {
-    const linkElement = document.getElementById(
-      'app-theme',
-    ) as HTMLLinkElement;
-
     switch (this.selectedAppearance.name) {
       case 'Auto':
         if (window.matchMedia("(prefers-color-scheme: dark)")) {
           this.selectedAppearance = { name: 'Auto' };
 
-          linkElement.href = 'theme-dark.css';
+          this.appThemeLinkElement!.href = 'theme-dark.css';
 
           this.monacoEditorOptions = { ...this.monacoEditorOptions, theme: 'vs-dark' };
         } else {
-          linkElement.href = 'theme-light.css';
+          this.appThemeLinkElement!.href = 'theme-light.css';
 
           this.monacoEditorOptions = { ...this.monacoEditorOptions, theme: 'vs-light' };
         }
@@ -164,7 +161,7 @@ export class IndexComponent implements OnInit {
         break;
 
       case 'Light':
-        linkElement.href = 'theme-light.css';
+        this.appThemeLinkElement!.href = 'theme-light.css';
 
         this.monacoEditorOptions = { ...this.monacoEditorOptions, theme: 'vs-light' };
 
@@ -173,7 +170,7 @@ export class IndexComponent implements OnInit {
         break;
 
       case 'Dark':
-        linkElement.href = 'theme-dark.css';
+        this.appThemeLinkElement!.href = 'theme-dark.css';
 
         this.monacoEditorOptions = { ...this.monacoEditorOptions, theme: 'vs-dark' };
 
@@ -184,7 +181,7 @@ export class IndexComponent implements OnInit {
   }
 
   private _setAppearanceOptions(): void {
-    this.Appearances = [
+    this.appearances = [
       { name: 'Light' },
       { name: 'Dark' },
       { name: 'Auto' },
