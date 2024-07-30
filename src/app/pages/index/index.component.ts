@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HotTableModule } from '@handsontable/angular';
 import { registerAllModules } from 'handsontable/registry';
@@ -40,22 +40,25 @@ registerAllModules();
   styleUrl: './index.component.css'
 })
 export class IndexComponent implements OnInit {
-  appThemeLinkElement: HTMLLinkElement | undefined;
+  private _appThemeLinkElement: HTMLLinkElement | undefined;
 
-  appearances: Appearance[] | undefined;
+  public appearances: Appearance[] | undefined;
 
-  selectedAppearance: Appearance;
+  public selectedAppearance: Appearance;
 
-  isDarkMode = false;
+  private _isDarkMode = false;
 
-  currentYear: number;
+  public splitterLayout!: string;
+  public splitterPanelSizes!: Array<number>;
 
-  monacoEditorOptions: any;
+  public currentYear: number;
 
-  data: string;
+  public monacoEditorOptions: any;
 
-  columns: any;
-  dataset: any;
+  public data: string;
+
+  public columns: any;
+  public dataset: any;
 
   constructor(
     private _baarutilService: BaarutilService,
@@ -72,15 +75,37 @@ export class IndexComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._initializemonacoEditorOptions();
+    this._initializeMonacoEditorOptions();
 
     this.resetOrInitializeData();
 
+    this._setSplitterAttributes();
+
     this._setAppearanceOptions();
 
-    this.appThemeLinkElement = document.getElementById('app-theme') as HTMLLinkElement;
+    this._appThemeLinkElement = document.getElementById('app-theme') as HTMLLinkElement;
 
     this._setSelectedAppearance();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onWindowResize() {
+    if (window.innerWidth < 767.98) {
+      this.splitterLayout = 'vertical';
+    } else {
+      this.splitterPanelSizes = [35, 65];
+      this.splitterLayout = 'horizontal';
+    }
+  }
+
+  private _setSplitterAttributes(): void {
+    if (window.innerWidth < 767.98) {
+      this.splitterPanelSizes = [50, 50];
+      this.splitterLayout = 'vertical';
+    } else {
+      this.splitterPanelSizes = [35, 65];
+      this.splitterLayout = 'horizontal';
+    }
   }
 
   private _setSelectedAppearance(): void {
@@ -93,13 +118,13 @@ export class IndexComponent implements OnInit {
         if (window.matchMedia("(prefers-color-scheme: dark)")) {
           this.selectedAppearance = { name: 'Dark' };
 
-          this.appThemeLinkElement!.href = 'theme-dark.css';
+          this._appThemeLinkElement!.href = 'theme-dark.css';
 
           this.monacoEditorOptions = { ...this.monacoEditorOptions, theme: 'vs-dark' };
         } else {
           this.selectedAppearance = { name: 'Light' };
 
-          this.appThemeLinkElement!.href = 'theme-light.css';
+          this._appThemeLinkElement!.href = 'theme-light.css';
 
           this.monacoEditorOptions = { ...this.monacoEditorOptions, theme: 'vs-light' };
         }
@@ -109,7 +134,7 @@ export class IndexComponent implements OnInit {
       case 'Light':
         this.selectedAppearance = { name: 'Light' };
 
-        this.appThemeLinkElement!.href = 'theme-light.css';
+        this._appThemeLinkElement!.href = 'theme-light.css';
 
         this.monacoEditorOptions = { ...this.monacoEditorOptions, theme: 'vs-light' };
 
@@ -118,7 +143,7 @@ export class IndexComponent implements OnInit {
       case 'Dark':
         this.selectedAppearance = { name: 'Dark' };
 
-        this.appThemeLinkElement!.href = 'theme-dark.css';
+        this._appThemeLinkElement!.href = 'theme-dark.css';
 
         this.monacoEditorOptions = { ...this.monacoEditorOptions, theme: 'vs-dark' };
 
@@ -128,11 +153,11 @@ export class IndexComponent implements OnInit {
         this.selectedAppearance = { name: 'Auto' };
 
         if (window.matchMedia("(prefers-color-scheme: dark)")) {
-          this.appThemeLinkElement!.href = 'theme-dark.css';
+          this._appThemeLinkElement!.href = 'theme-dark.css';
 
           this.monacoEditorOptions = { ...this.monacoEditorOptions, theme: 'vs-dark' };
         } else {
-          this.appThemeLinkElement!.href = 'theme-light.css';
+          this._appThemeLinkElement!.href = 'theme-light.css';
 
           this.monacoEditorOptions = { ...this.monacoEditorOptions, theme: 'vs-light' };
         }
@@ -147,11 +172,11 @@ export class IndexComponent implements OnInit {
         if (window.matchMedia("(prefers-color-scheme: dark)")) {
           this.selectedAppearance = { name: 'Auto' };
 
-          this.appThemeLinkElement!.href = 'theme-dark.css';
+          this._appThemeLinkElement!.href = 'theme-dark.css';
 
           this.monacoEditorOptions = { ...this.monacoEditorOptions, theme: 'vs-dark' };
         } else {
-          this.appThemeLinkElement!.href = 'theme-light.css';
+          this._appThemeLinkElement!.href = 'theme-light.css';
 
           this.monacoEditorOptions = { ...this.monacoEditorOptions, theme: 'vs-light' };
         }
@@ -161,7 +186,7 @@ export class IndexComponent implements OnInit {
         break;
 
       case 'Light':
-        this.appThemeLinkElement!.href = 'theme-light.css';
+        this._appThemeLinkElement!.href = 'theme-light.css';
 
         this.monacoEditorOptions = { ...this.monacoEditorOptions, theme: 'vs-light' };
 
@@ -170,7 +195,7 @@ export class IndexComponent implements OnInit {
         break;
 
       case 'Dark':
-        this.appThemeLinkElement!.href = 'theme-dark.css';
+        this._appThemeLinkElement!.href = 'theme-dark.css';
 
         this.monacoEditorOptions = { ...this.monacoEditorOptions, theme: 'vs-dark' };
 
@@ -188,7 +213,7 @@ export class IndexComponent implements OnInit {
     ];
   }
 
-  private _initializemonacoEditorOptions(): void {
+  private _initializeMonacoEditorOptions(): void {
     this.monacoEditorOptions = {
       fontFamily: 'Menlo, monospace',
       fontSize: 14,
@@ -202,7 +227,7 @@ export class IndexComponent implements OnInit {
         enabled: false
       },
       suggestOnTriggerCharacters: false,
-      theme: this.isDarkMode ? 'vs-dark' : 'vs-light',
+      theme: this._isDarkMode ? 'vs-dark' : 'vs-light',
       wordWrap: 'on'
     };
   }
